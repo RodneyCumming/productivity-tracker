@@ -1,0 +1,19 @@
+{
+  "name": "serverless-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "pushNotification": "serverless invoke local --function pushNotification",
+    "mockSave": "serverless invoke local --function saveSubscription --data '{ \"body\": {\"endpoint\":\"https://fcm.googleapis.com/fcm/send/ePeLRLpMCnM:APA91bH4tdWWYw7tYMXyPEPrQZnHl8xDTHa-3SFj7ZVcsU0yRMFEwIUIHFtCjSDP09h1DE1Zakv68CIHci_mylTILbxw2f9lrj0FMXQBWq4jKWlKTAHFKu9cgCVRRynt43w03Ny_PcAb\",\"expirationTime\":null,\"keys\":{\"p256dh\":\"BLFBhFpB-XuNWvqkdF30g8lDNUsK5b3b9pH2k2Z9B78gqcYa9yqLFDJnG5aiXzY2KogcFh0vMHoKRhD1O_4H4B4\",\"auth\":\"aIadxS02vrJNfpTDHW9BEw\"}} }'"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "serverless-dynamodb-client": "0.0.2",
+    "web-push": "^3.4.4"
+  },
+  "devDependencies": {
+    "serverless-dotenv-plugin": "^3.1.0"
+  }
+}

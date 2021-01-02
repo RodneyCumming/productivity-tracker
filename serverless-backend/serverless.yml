@@ -1,0 +1,39 @@
+service: serverless-backend
+plugins:
+  - serverless-dotenv-plugin
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: dev
+  region: us-east-1
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+      Resource: "*"
+
+functions:
+  pushNotification: # name called to invoke the function
+    handler: push-notification.push # fileName.functionName
+    environment:
+      PUBLIC_VAPID_KEY: ${env:PUBLIC_VAPID_KEY}
+      PRIVATE_VAPID_KEY: ${env:PRIVATE_VAPID_KEY}
+      MALTO_EMAIL: ${env:MALTO_EMAIL}
+    events:
+      - http: 
+          path: push
+          method: get
+
+  saveSubscription:
+    handler: save-subscription.save
+    events:
+      - http: 
+          path: subscription
+          method: post
+
+
+# todo: add cron scedualler 
