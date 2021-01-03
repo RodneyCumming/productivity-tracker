@@ -27,6 +27,7 @@ functions:
       - http: 
           path: push
           method: get
+          cors: true
 
   saveSubscription:
     handler: save-subscription.save
@@ -34,6 +35,7 @@ functions:
       - http: 
           path: subscription
           method: post
+          cors: true
 
 
 # todo: add cron scedualler 

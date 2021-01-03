@@ -101,6 +101,7 @@ async function saveSubscription() {
     await fetch(saveSubscriptionEndpoint, {
         method: "POST",
         body: JSON.stringify(subscription),
+        mode: "no-cors", // 'cors' by default
         headers: {
             "content-type" : "application/json"
         }
