@@ -7,12 +7,12 @@
 // You can also remove this file if you'd prefer not to use a
 // service worker, and the Workbox build step will be skipped.
 
-import { clientsClaim } from 'workbox-core';
-import { ExpirationPlugin } from 'workbox-expiration';
-import { precacheAndRoute, createHandlerBoundToURL } from 'workbox-precaching';
-import { registerRoute } from 'workbox-routing';
-import { StaleWhileRevalidate } from 'workbox-strategies';
-import logo from './images/logo.jpg'
+import { clientsClaim } from "workbox-core";
+import { ExpirationPlugin } from "workbox-expiration";
+import { precacheAndRoute, createHandlerBoundToURL } from "workbox-precaching";
+import { registerRoute } from "workbox-routing";
+import { StaleWhileRevalidate } from "workbox-strategies";
+import logo from "./images/logo.jpg";
 
 clientsClaim();
 
@@ -25,16 +25,16 @@ precacheAndRoute(self.__WB_MANIFEST);
 // Set up App Shell-style routing, so that all navigation requests
 // are fulfilled with your index.html shell. Learn more at
 // https://developers.google.com/web/fundamentals/architecture/app-shell
-const fileExtensionRegexp = new RegExp('/[^/?]+\\.[^/]+$');
+const fileExtensionRegexp = new RegExp("/[^/?]+\\.[^/]+$");
 registerRoute(
   // Return false to exempt requests from being fulfilled by index.html.
   ({ request, url }) => {
     // If this isn't a navigation, skip.
-    if (request.mode !== 'navigate') {
+    if (request.mode !== "navigate") {
       return false;
     } // If this is a URL that starts with /_, skip.
 
-    if (url.pathname.startsWith('/_')) {
+    if (url.pathname.startsWith("/_")) {
       return false;
     } // If this looks like a URL for a resource, because it contains // a file extension, skip.
 
@@ -44,16 +44,17 @@ registerRoute(
 
     return true;
   },
-  createHandlerBoundToURL(process.env.PUBLIC_URL + '/index.html')
+  createHandlerBoundToURL(process.env.PUBLIC_URL + "/index.html")
 );
 
 // An example runtime caching route for requests that aren't handled by the
 // precache, in this case same-origin .png requests like those from in public/
 registerRoute(
   // Add in any other file extensions or routing criteria as needed.
-  ({ url }) => url.origin === self.location.origin && url.pathname.endsWith('.png'), // Customize this strategy as needed, e.g., by changing to CacheFirst.
+  ({ url }) =>
+    url.origin === self.location.origin && url.pathname.endsWith(".png"), // Customize this strategy as needed, e.g., by changing to CacheFirst.
   new StaleWhileRevalidate({
-    cacheName: 'images',
+    cacheName: "images",
     plugins: [
       // Ensure that once this runtime cache reaches a maximum size the
       // least-recently used images are removed.
@@ -64,26 +65,43 @@ registerRoute(
 
 // This allows the web app to trigger skipWaiting via
 // registration.waiting.postMessage({type: 'SKIP_WAITING'})
-self.addEventListener('message', (event) => {
-  if (event.data && event.data.type === 'SKIP_WAITING') {
+self.addEventListener("message", (event) => {
+  if (event.data && event.data.type === "SKIP_WAITING") {
     self.skipWaiting();
   }
 });
 
 // Any other custom service worker logic can go here.
-self.addEventListener("push", e => {
-  // const data = e.data.json();
+self.addEventListener("push", (e) => {
+  const data = e.data.json();
   console.log("Push received.......");
-  //  self.registration.showNotification(data.title, {
-  //      body: "Notified by Rod",
-  //      icon: "https://www.rodneycumming.com/static/media/logo.ca229513.svg"
-  //  })
-  self.registration.showNotification('test title', {
-      body: 'Test question?',    
-      icon: logo,
-       actions:[
-          {action:"option1", title: "1"},
-          {action:"option2", title: "2"} ,
-          {action:"option3", title: "3"}]
-     });
-})
+  self.skipWaiting() // ????
+  self.registration.showNotification(`test+${Math.floor(Math.random() * 100)}`, {
+    body: "Notified by Rod",
+    icon: logo,
+    actions: [
+      { action: "option1", title: "" },
+      { action: "option2", title: "2" },
+      { action: "option3", title: "3" },
+    ],
+    data: {
+      doge: {
+        wow: "such amaze notification data",
+      },
+    },
+  });
+  // self.registration.showNotification('test title', {
+  //     body: 'Test question?',
+  //     icon: logo,
+  //      actions:[
+  //         {action:"option1", title: "1"},
+  //         {action:"option2", title: "2"} ,
+  //         {action:"option3", title: "3"}]
+  //    });
+});
+
+// notification click event
+self.addEventListener("notificationclick", function (event) {
+  var doge = event.notification.data.doge;
+  console.log(doge.wow);
+});

@@ -28,6 +28,7 @@ functions:
           path: push
           method: get
           cors: true
+      - schedule: cron(20 * ? * * *)
 
   saveSubscription:
     handler: save-subscription.save
@@ -39,3 +40,4 @@ functions:
 
 
 # todo: add cron scedualler 
+# https://docs.aws.amazon.com/systems-manager/latest/userguide/reference-cron-and-rate-expressions.html

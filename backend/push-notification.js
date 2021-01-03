@@ -30,12 +30,12 @@ webpush.setVapidDetails(
   privateVapidKey
 );
 
-
-
 const push = async event => {
 
-  // todo: move to env
+  console.log('--event--', event)
+  console.log('--event.type--', event.type)
 
+  // todo: move to env
 
   // Get subscriptions from dynamoDb Table
   const dbItems = await getAllItems("Subscriptions");
