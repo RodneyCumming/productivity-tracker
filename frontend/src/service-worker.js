@@ -76,12 +76,12 @@ self.addEventListener("push", (e) => {
   const data = e.data.json();
   console.log("Push received.......");
   self.skipWaiting() // ????
-  self.registration.showNotification(`test+${Math.floor(Math.random() * 100)}`, {
+  self.registration.showNotification(data.title, {
     body: "Notified by Rod",
     icon: logo,
     actions: [
-      { action: "option1", title: "" },
-      { action: "option2", title: "2" },
+      { action: "option1", title: "option1 title" },
+      { action: "option2", title: "option2 title" },
       { action: "option3", title: "3" },
     ],
     data: {
