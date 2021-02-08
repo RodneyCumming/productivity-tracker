@@ -32,6 +32,8 @@ webpush.setVapidDetails(
 
 const push = async event => {
 
+  const currentTime = new Date();
+  console.log('current time', currentTime)
   console.log('--event--', event)
   console.log('--event.type--', event.type)
 

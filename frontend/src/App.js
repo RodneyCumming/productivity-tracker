@@ -1,150 +1,255 @@
-import React from 'react';
-import './App.css';
+import React, { useState } from "react";
 
-const saveSubscriptionEndpoint = 'https://v1qo2mhy9g.execute-api.us-east-1.amazonaws.com/dev/subscription';
-const pushNotificationEndpoint = 'https://v1qo2mhy9g.execute-api.us-east-1.amazonaws.com/dev/push'
+import styled from 'styled-components';
+
+import "./App.css";
+import TodoList from "./TodoList";
+import News from "./News";
+import Goals from "./Goals";
+import ProductivityForm from "./ProductivityForm";
+import PushNotifications from "./PushNotifications";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+
+import clsx from 'clsx';
+import { green } from '@material-ui/core/colors';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Drawer from '@material-ui/core/Drawer';
+import Box from '@material-ui/core/Box';
+import AppBar from '@material-ui/core/AppBar';
+import MenuIcon from '@material-ui/icons/Menu';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import Toolbar from '@material-ui/core/Toolbar';
+import List from '@material-ui/core/List';
+import Typography from '@material-ui/core/Typography';
+import InboxIcon from '@material-ui/icons/MoveToInbox';
+import MailIcon from '@material-ui/icons/Mail';
+import Divider from '@material-ui/core/Divider';
+import IconButton from '@material-ui/core/IconButton';
+import Badge from '@material-ui/core/Badge';
+import Container from '@material-ui/core/Container';
+import Grid from '@material-ui/core/Grid';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItem from '@material-ui/core/ListItem';
+import Paper from '@material-ui/core/Paper';
+// import Link from '@material-ui/core/Link';
+// import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import NotificationsIcon from '@material-ui/icons/Notifications';
+
+
+const StyledListItem = styled(ListItem)`
+  &:hover {
+    background: #3f4461;
+  }
+`;
+
+
+const drawerWidth = 240;
+
+// const theme = createMuiTheme({
+//   palette: {
+//     primary: {
+//       light: '#757ce8',
+//       main: '#3f50b5',
+//       dark: '#002884',
+//       contrastText: '#fff',
+//     },
+//     secondary: {
+//       light: '#ff7961',
+//       main: '#f44336',
+//       dark: '#ba000d',
+//       contrastText: '#000',
+//     },
+//   },
+// });
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+  },
+  appBar: {
+    background: '#1869aa',
+    padding: '0px 20px',
+    boxShadow: 'none',
+    transition: theme.transitions.create(['margin', 'width'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+  },
+  appBarShift: {
+    width: `calc(100% - ${drawerWidth}px)`,
+    marginLeft: drawerWidth,
+    transition: theme.transitions.create(['margin', 'width'], {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+  },
+  hide: {
+    display: 'none',
+  },
+  drawer: {
+    background: '#1e2a3a',
+    color: 'white',
+    width: drawerWidth,
+    flexShrink: 0,
+  },
+  drawerPaper: {
+    background: '#1e2a3a',
+    color: 'white',
+    width: drawerWidth,
+  },
+  drawerHeader: {
+    display: 'flex',
+    alignItems: 'center',
+    padding: theme.spacing(0, 1),
+    // necessary for content to be below app bar
+    ...theme.mixins.toolbar,
+    justifyContent: 'flex-end',
+  },
+  content: {
+    width: `100%`,
+    flexGrow: 1,
+    padding: theme.spacing(3),
+    transition: theme.transitions.create(['margin', 'width'], {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+    marginLeft: 0,
+  },
+  contentShift: {
+    width: `calc(100% - ${drawerWidth}px)`,
+    flexGrow: 1,
+    padding: theme.spacing(3),
+    transition: theme.transitions.create(['margin', 'width'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    marginLeft: drawerWidth,
+  },
+}));
 
 function App() {
-
-  const publicVapidKey = process.env.REACT_APP_PUBLIC_VAPID_KEY;
-
-// if("serviceWorker" in navigator) {
-//     send().catch(err => console.log(err));
-//     navigator.serviceWorker.ready.then(function(reg) {
-//     reg.pushManager.getSubscription().then(function(subscription) {
-//       subscription.unsubscribe().then(function(successful) {
-//         console.log('Youve successfully unsubscribed')
-//       }).catch(function(e) {
-//         console.log('Unsubscription failed', e)
-//         // 
-//       })
-//     })
-//   });
-// }
-
-//Register service worker, register push , send push notifications  
-// async function send() {
-//     console.log("registering service worker");
-    // const register = await navigator.serviceWorker.register('/service-worker.js', {
-    //     scope: "http://localhost:3000/"
-    // });
-//     console.log("Service worker registered...");
-
-    //Register push 
-    // console.log("Regisering push");
-    // const subscription  = await register.pushManager.subscribe({
-    //     userVisibleOnly: true,
-    //     applicationServerKey: urlBase64ToUint8Array(publicVapidKey)
-    // })
-    // console.log("push registered");
-
-    //send push notification
-    // console.log("sending push...")
-    // await fetch(`${apiUrl}/subscribe`, {
-    //     method: "POST",
-    //     body: JSON.stringify(subscription),
-    //     headers: {
-    //         "content-type" : "application/json"
-    //     }
-    // })
-    // console.log("Push sent...")
-
-// }
-
-// function registerServiceWorker() {
-//   return navigator.serviceWorker.register("/sw.js");
-// }
-
-function isPushNotificationSupported() {
-  return "serviceWorker" in navigator && "PushManager" in window;
-}
-
-// function registerServiceWorker() {
-//   if ('serviceWorker' in navigator) {
-//     // Register a service worker hosted at the root of the
-//     // site using the default scope.
-//     navigator.serviceWorker.register('/service-worker.js').then(function(registration) {
-//       console.log('Service worker registration succeeded:', registration);
-//     }, /*catch*/ function(error) {
-//       console.log('Service worker registration failed:', error);
-//     });
-//   } else {
-//     console.log('Service workers are not supported.');
-//   }
-// }
-
-// async function askUserPermission() {
-//   return await Notification.requestPermission();
-// }
-
-async function saveSubscription() {
-    // console.log("registering service worker");
-    // const register = await navigator.serviceWorker.register('/service-worker.js', {
-    //     scope: "/"
-    // });
-
-    console.log('save subscription');
-    const serviceWorker = await navigator.serviceWorker.ready;
-    
-    console.log("Service worker registered...");
-
-    //Register push 
-    console.log("Regisering push");
-    const subscription  = await serviceWorker.pushManager.subscribe({
-        userVisibleOnly: true,
-        applicationServerKey: urlBase64ToUint8Array(publicVapidKey)
-    })
-    console.log("push registered", JSON.stringify(subscription));
-
-    //send push notification
-    console.log("sending push...")
-    await fetch(saveSubscriptionEndpoint, {
-        method: "POST",
-        body: JSON.stringify(subscription),
-        mode: "no-cors", // 'cors' by default
-        headers: {
-            "content-type" : "application/json"
-        }
-    })
-    console.log("Push sent...")
-
-}
-
-async function pushNotification() {
-    
-    await fetch(pushNotificationEndpoint, {
-        method: "GET",
-        mode: "no-cors" // 'cors' by default
-    })
-}
-
-function urlBase64ToUint8Array(base64String) {
-    const padding = '='.repeat((4 - base64String.length % 4) % 4);
-    const base64 = (base64String + padding)
-      .replace(/-/g, '+')
-      .replace(/_/g, '/');
-   
-    const rawData = window.atob(base64);
-    const outputArray = new Uint8Array(rawData.length);
-   
-    for (let i = 0; i < rawData.length; ++i) {
-      outputArray[i] = rawData.charCodeAt(i);
-    }
-    return outputArray;
-  }
+  const [drawerOpen, setDrawerOpen] = useState(true);
+  const classes = useStyles();
+  const theme = useTheme();
 
   return (
-    <div className="App">
-      <header className="App-header">
+    <Router>
+       <CssBaseline />
+       <AppBar
+        position="fixed"
+        className={clsx(classes.appBar, {
+          [classes.appBarShift]: drawerOpen,
+        })}
+      >
+        <Toolbar>
+          <IconButton
+            // color="white"
+            aria-label="open drawer"
+            onClick={() => setDrawerOpen(true)}
+            edge="start"
+            className={clsx(classes.menuButton, drawerOpen && classes.hide)}
+          >
+            <MenuIcon style={{ color: 'white' }} />
+          </IconButton>
+          <Typography variant="h6" noWrap>
+            Productivity Hub
+          </Typography>
+        </Toolbar>
+      </AppBar>
+      <Drawer
+        className={classes.drawer}
+        variant="persistent"
+        anchor="left"
+        open={drawerOpen}
+        classes={{
+          paper: classes.drawerPaper,
+        }}
+      >
+        <div 
+        className={classes.drawerHeader}
+        >
+          <IconButton onClick={() => setDrawerOpen(false)}>
+            {theme.direction === 'ltr' ? <ChevronLeftIcon  style={{ color: 'white' }}/> : <ChevronRightIcon  />}
+          </IconButton>
+        </div>
+        <Divider />
+        <List>
+          {[{
+            linkPath: '/dashboard',
+            label: 'Dashboard'
+            }, {
+            linkPath: '/productivityForm',
+            label: 'Habits'
+            }, {
+            linkPath: '/todo',
+            label: 'Todo List'
+            }, {
+            linkPath: '/goals',
+            label: 'Goals'
+            }, {
+            linkPath: '/pushNotifications',
+            label: 'Notifications'
+            }, {
+            linkPath: '/gym',
+            label: 'Gym'
+            }, {
+            linkPath: '/news',
+            label: 'News'
+            }
+            ].map(({label, linkPath}, index) => (
+            <Link to={linkPath} key={label}>
+              <StyledListItem button >
+                <ListItemIcon style={{ color: 'white' }}>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+                <ListItemText primary={label} />
+              </StyledListItem>
+            </Link>
+          ))}
+        </List>
+  
+      </Drawer>
 
-        <h2>Web Push Testing</h2>
-        <button onClick={saveSubscription}><h1>Save Subscription</h1></button>
-        <button onClick={pushNotification}><h1>Send Push Notification</h1></button>
-        <button onClick={() => alert(isPushNotificationSupported())}><h1>Is Push Notification Supported?</h1></button>
-        {/* Todo: unsubscribe */}
-      </header>
-    </div>
+
+        <main
+          className={clsx(classes.content, {
+            [classes.contentShift]: drawerOpen,
+          })}
+          style={{left: '240px', marginTop: '64px', padding: '0'}}
+        >
+        <Switch>
+          <Route path="/pushNotifications">
+            <PushNotifications />
+          </Route>
+          <Route path="/todo">
+            <TodoList />
+          </Route>
+          <Route path="/goals">
+            <Goals />
+          </Route>
+          <Route path="/productivityForm">
+            <ProductivityForm />
+          </Route>
+          <Route path="/news">
+            <News />
+          </Route>
+        </Switch>
+        </main>
+
+    </Router>
   );
 }
 
 export default App;
+
+
+// Todo: Add gym routine generator
+// Todo: Home lights
+// Todo: Month in review
+// Book, Audiobook, TV, Movies
+// News and videos feed
+// Blog / research

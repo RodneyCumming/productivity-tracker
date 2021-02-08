@@ -77,18 +77,14 @@ self.addEventListener("push", (e) => {
   console.log("Push received.......");
   self.skipWaiting() // ????
   self.registration.showNotification(data.title, {
-    body: "Notified by Rod",
+    body: "Productivity Check-in",
     icon: logo,
-    actions: [
-      { action: "option1", title: "option1 title" },
-      { action: "option2", title: "option2 title" },
-      { action: "option3", title: "3" },
-    ],
-    data: {
-      doge: {
-        wow: "such amaze notification data",
-      },
-    },
+    // actions: [
+    //   { action: "option1", title: "option1 title" },
+    //   { action: "option2", title: "option2 title" },
+    //   { action: "option3", title: "3" },
+    // ],
+    click_action : "https://productivityhub.netlify.app/",
   });
   // self.registration.showNotification('test title', {
   //     body: 'Test question?',
@@ -101,7 +97,13 @@ self.addEventListener("push", (e) => {
 });
 
 // notification click event
-self.addEventListener("notificationclick", function (event) {
-  var doge = event.notification.data.doge;
-  console.log(doge.wow);
-});
+// self.addEventListener('notificationclick', function(event) {
+//   event.notification.close();
+//   if (event.action === 'archive') {
+//     // Archive action was clicked
+//     archiveEmail();
+//   } else {
+//     // Main body of notification was clicked
+//     clients.openWindow('https://productivityhub.netlify.app/');
+//   }
+// }, false);

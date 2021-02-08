@@ -7,6 +7,8 @@ provider:
   runtime: nodejs12.x
   stage: dev
   region: us-east-1
+  # environment:
+  #   DYNAMODB_TABLE: todo-items
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -28,13 +30,38 @@ functions:
           path: push
           method: get
           cors: true
-      - schedule: cron(20 * ? * * *)
+      - schedule: cron(0 0 9 * ? *)
+      # 9am UTM === 10pm nz
 
   saveSubscription:
     handler: save-subscription.save
     events:
       - http: 
           path: subscription
+          method: post
+          cors: true
+
+  updateProductivity:
+    handler: update-productivity.update
+    events:
+      - http: 
+          path: productivity
+          method: post
+          cors: true
+
+  getProductivityItem:
+    handler: get-productivity-item.get
+    events:
+      - http: 
+          path: productivity
+          method: get
+          cors: true
+
+  putItemInTable:
+    handler: put-item-in-table.put
+    events:
+      - http: 
+          path: put
           method: post
           cors: true
 
