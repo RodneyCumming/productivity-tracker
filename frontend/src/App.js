@@ -127,7 +127,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function App() {
-  const [drawerOpen, setDrawerOpen] = useState(true);
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const classes = useStyles();
   const theme = useTheme();
 
