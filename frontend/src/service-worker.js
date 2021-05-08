@@ -84,7 +84,7 @@ self.addEventListener("push", (e) => {
     //   { action: "option2", title: "option2 title" },
     //   { action: "option3", title: "3" },
     // ],
-    click_action : "https://productivityhub.netlify.app/",
+    click_action : "https://productivityhub.netlify.app/productivityForm",
   });
   // self.registration.showNotification('test title', {
   //     body: 'Test question?',
