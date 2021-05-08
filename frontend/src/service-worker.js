@@ -92,13 +92,11 @@ self.addEventListener("push", (e) => {
 });
 
 // notification click event
-// self.addEventListener('notificationclick', function(event) {
-//   event.notification.close();
-//   if (event.action === 'archive') {
-//     // Archive action was clicked
-//     archiveEmail();
-//   } else {
-//     // Main body of notification was clicked
-//     clients.openWindow('https://productivityhub.netlify.app/');
-//   }
-// }, false);
+
+self.addEventListener('notificationclick', function(event) {
+  event.notification.close();
+  event.waitUntil(
+    // eslint-disable-next-line no-undef
+    clients.openWindow('https://productivityhub.netlify.app/productivityForm')
+  );
+})
