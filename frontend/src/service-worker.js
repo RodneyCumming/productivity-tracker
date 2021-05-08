@@ -77,13 +77,8 @@ self.addEventListener("push", (e) => {
   console.log("Push received.......");
   self.skipWaiting() // ????
   self.registration.showNotification(data.title, {
-    body: "Productivity Check-in",
+    body: "Check-in",
     icon: logo,
-    // actions: [
-    //   { action: "option1", title: "option1 title" },
-    //   { action: "option2", title: "option2 title" },
-    //   { action: "option3", title: "3" },
-    // ],
     click_action : "https://productivityhub.netlify.app/productivityForm",
   });
   // self.registration.showNotification('test title', {
