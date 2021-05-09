@@ -71,6 +71,7 @@ const IncrementalInput = ({
 
 const ProductivityForm = () => {
   const [gymScore, setGymScore] = useState(0);
+  // Break down gym score into back, shoulders, chest
   const [readingScore, setReadingScore] = useState(0);
   const [dishesScore, setDishesScore] = useState(0);
   const [meditationScore, setMeditationScore] = useState(0);
@@ -176,15 +177,8 @@ const ProductivityForm = () => {
       </Typography> */}
       <div style={{background: '#2196f3', padding: '20px 40px', color: 'white', display: 'flex', justifyContent: 'space-between',
     alignItems: 'center'}}>
-      
-      <div style={{display: 'flex', justifyContent: 'center'}}> 
-      <Button onClick={() => setDateOffset(dateOffset - 1)}><ChevronLeftIcon style={{color: 'white'}}/></Button>
-      <Typography variant="h6" component="h6" style={{margin: '0 20px', display: 'flex', alignItems: 'center'}}>
-        {moment().add(dateOffset, "days").format("dddd D MMMM")}
-      </Typography>
-      <Button onClick={() => setDateOffset(dateOffset + 1)}><ChevronRightIcon style={{color: 'white'}}/></Button>
-      </div>
-      <Typography variant="h3" component="h3" style={{ textAlign: 'center', fontWeight: '900' }}>
+
+<Typography variant="h3" component="h3" style={{ textAlign: 'center', fontWeight: '900' }}>
         { gymScore +
       readingScore +
       dishesScore +
@@ -201,6 +195,15 @@ const ProductivityForm = () => {
       screenEndTimeScore +
       makeBedScore}
       </Typography>
+      
+      <div style={{display: 'flex', justifyContent: 'center'}}> 
+      <Button onClick={() => setDateOffset(dateOffset - 1)}><ChevronLeftIcon style={{color: 'white'}}/></Button>
+      <Typography variant="h6" component="h6" style={{margin: '0 20px', display: 'flex', alignItems: 'center'}}>
+        {moment().add(dateOffset, "days").format("dddd D MMMM")}
+      </Typography>
+      <Button onClick={() => setDateOffset(dateOffset + 1)}><ChevronRightIcon style={{color: 'white'}}/></Button>
+      </div>
+      
       </div>
       <div style={{padding: '0 40px'}}>
       {/* <div style={{display: 'flex', justifyContent: 'center'}}> 

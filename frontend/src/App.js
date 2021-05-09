@@ -3,11 +3,14 @@ import React, { useState } from "react";
 import styled from 'styled-components';
 
 import "./App.css";
-import TodoList from "./TodoList";
-import News from "./News";
-import Goals from "./Goals";
-import ProductivityForm from "./ProductivityForm";
-import PushNotifications from "./PushNotifications";
+
+// Pages
+import TodoList from "./pages/TodoList";
+import Goals from "./pages/Goals";
+import ProductivityForm from "./pages/ProductivityForm";
+import PushNotifications from "./pages/PushNotifications";
+
+
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 import clsx from 'clsx';
@@ -188,12 +191,6 @@ function App() {
             }, {
             linkPath: '/pushNotifications',
             label: 'Notifications'
-            }, {
-            linkPath: '/gym',
-            label: 'Gym'
-            }, {
-            linkPath: '/news',
-            label: 'News'
             }
             ].map(({label, linkPath}, index) => (
             <Link to={linkPath} key={label}>
@@ -226,9 +223,6 @@ function App() {
           </Route>
           <Route path="/productivityForm">
             <ProductivityForm />
-          </Route>
-          <Route path="/news">
-            <News />
           </Route>
         </Switch>
         </main>

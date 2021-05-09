@@ -65,7 +65,7 @@ const PushNotifications = () => {
   }
 
   return (
-    <div>
+    <div style={{padding: "40px"}}>
       <Typography variant="h4" component="h4">
         Push Notifications
       </Typography>
